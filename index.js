@@ -8,7 +8,7 @@ var copy = require("./lib/copy");
 
 function DefaultBuilder(config, build_or_dist, extra_processors) {
   this.config = config;
-  this.key = build_or_dist || "build";
+  this.key = build_or_dist;
   this.processors = {
     // These processors do nothing, but are registered to reduce warnings.
     ".html": `./processors/null.es6`,
