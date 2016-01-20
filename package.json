@@ -2,7 +2,7 @@
   "name": "truffle-default-builder",
   "version": "0.0.1",
   "description": "Default builder for Truffle dapps",
-  "main": "index.js",
+  "main": "index.es6",
   "dependencies": {
     "async": "^1.5.2",
     "babel-core": "^6.4.0",
@@ -19,6 +19,7 @@
     "lodash": "^4.0.0",
     "mkdirp": "^0.5.1",
     "node-sass": "^3.4.2",
+    "temp": "^0.8.3",
     "uglify-js": "^2.6.1",
     "web3": "^0.15.1"
   },

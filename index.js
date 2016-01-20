@@ -11,26 +11,26 @@ function DefaultBuilder(config, build_or_dist, extra_processors) {
   this.key = build_or_dist;
   this.processors = {
     // These processors do nothing, but are registered to reduce warnings.
-    ".html": `./processors/null.es6`,
-    ".js": `./processors/null.es6`,
-    ".css": `./processors/null.es6`,
-    ".json": `./processors/null.es6`,
+    ".html": "./processors/null.js",
+    ".js": "./processors/null.js",
+    ".css": "./processors/null.js",
+    ".json": "./processors/null.js",
 
     // Helpful default processors.
-    ".coffee": `./processors/coffee.es6`,
-    ".scss": `./processors/scss.es6`,
+    ".coffee": "./processors/coffee.js",
+    ".scss": "./processors/scss.js",
 
     // Babel-related processors.
-    ".es6": `./processors/babel.es6`,
-    ".es": `./processors/babel.es6`,
-    ".jsx": `./processors/babel.es6`,
+    ".es6": "./processors/babel.js",
+    ".es": "./processors/babel.js",
+    ".jsx": "./processors/babel.js",
 
     // Named processors for post-processing.
-    "null": `./processors/null.es6`, // does nothing; useful in some edge cases.
-    "uglify": `./processors/post/uglify.es6`,
-    "frontend-dependencies": `./processors/post/frontend_dependencies.es6`,
-    "bootstrap": `./processors/post/bootstrap.es6`,
-    "include-contracts": `./processors/post/include_contracts.es6`
+    "null": "./processors/null.js", // does nothing; useful in some edge cases.
+    "uglify": "./processors/post/uglify.js",
+    "frontend-dependencies": "./processors/post/frontend_dependencies.js",
+    "bootstrap": "./processors/post/bootstrap.js",
+    "include-contracts": "./processors/post/include_contracts.js"
   };
   this.contexts = {
     build: {
@@ -132,12 +132,12 @@ DefaultBuilder.prototype.process_file = function(file, callback) {
   var self = this;
   var extension = path.extname(file).toLowerCase();
   var processor_path = this.processors[extension];
-  this.expect(processor_path, `specified "${extension}" processor`, "Check your app config.");
+  this.expect(processor_path, "specified \"" + extension + "\" processor", "Check your app config.");
   var processor = require(processor_path);
 
   if (processor == null) {
     var display_name = "." + file.replace(this.working_directory, "");
-    console.log(colors.yellow(`Warning: Couldn't find processor for ${display_name}. Including as is.`));
+    console.log(colors.yellow("Warning: Couldn't find processor for " + display_name + ". Including as is."));
     processor = this.processors["null"];
   }
 
@@ -179,7 +179,7 @@ DefaultBuilder.prototype.process_files = function(files, base_path, separator, c
     self.process_file(full_path, function(err, processed) {
       if (err != null) {
         console.log("");
-        console.log(colors.red(`Error in ${file}:`));
+        console.log(colors.red("Error in " + file));
         console.log("");
         iterator_callback(err);
         return;
@@ -192,10 +192,10 @@ DefaultBuilder.prototype.process_files = function(files, base_path, separator, c
 
 DefaultBuilder.prototype.process_directory = function(target, callback) {
   var value = this.config[target];
-  var destination_directory = `${this.destination_directory}/${target}`;
-  var source_directory = `${this.source_directory}/${value.files[0]}`;
+  var destination_directory = path.join(this.destination_directory, target);
+  var source_directory = path.join(this.source_directory, value.files[0]);
 
-  if (!this.expect(source_directory, `source directory for target ${target}`, "Check app configuration.", callback)) {
+  if (!this.expect(source_directory, "source directory for target " + target, "Check app configuration.", callback)) {
     return;
   }
 
@@ -215,7 +215,7 @@ DefaultBuilder.prototype.process_target = function(target, callback) {
 
   var files = this.config[target].files;
   var post_processing = this.config[target]["post-process"][this.key];
-  var target_file = `${this.destination_directory}/${target}`;
+  var target_file = path.join(this.destination_directory, target);
 
   this.process_files(files, this.source_directory, (err, processed) => {
     if (err != null) {
@@ -226,16 +226,16 @@ DefaultBuilder.prototype.process_target = function(target, callback) {
     // Now do post processing.
     async.reduce(post_processing, processed, function(memo, processor_name, post_processor_finished) {
       var post_processor_path = self.processors[processor_name];
-      self.expect(post_processor_path, `specified post processor "${processor_name}"`, "Check your app config.");
+      self.expect(post_processor_path, "specified post processor \"" + processor_name + "\"", "Check your app config.");
       var post_processor = require(post_processor_path);
 
       if (!post_processor) {
-        post_processor_finished(new Error(`Cannot find processor named '${processor_name}' during post-processing. Check app configuration.`));
+        post_processor_finished(new Error("Cannot find processor named '" + processor_name + "' during post-processing. Check app configuration."));
         return;
       }
 
       if (typeof post_processor != "function") {
-        post_processor_finished(new Error(`Couldn't load custom processor '${processor_name}'; processor function not correctly exported.`));
+        post_processor_finished(new Error("Couldn't load custom processor '" + processor_name + "'; processor function not correctly exported."));
         return;
       }
 
@@ -260,7 +260,7 @@ DefaultBuilder.prototype.process_all_targets = function(callback) {
   }, callback);
 };
 
-DefaultBuilder.prototype.expect = function(expected_path, description="file", extra="", callback) {
+DefaultBuilder.prototype.expect = function(expected_path, description, extra, callback) {
   if (typeof description == "function") {
     callback = description;
     description = "file";
@@ -274,7 +274,7 @@ DefaultBuilder.prototype.expect = function(expected_path, description="file", ex
 
   if (!fs.existsSync(expected_path)) {
     var display_path = expected_path.replace(this.working_directory, "./");
-    var error = `Couldn't find ${description} at ${display_path}. ${extra}`;
+    var error = "Couldn't find " + description + " at " + display_path + ". " + extra;
 
     if (callback != null) {
       callback(error);
