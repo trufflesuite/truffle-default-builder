@@ -141,7 +141,7 @@ DefaultBuilder.prototype.process_file = function(file, callback) {
     processor = this.processors["null"];
   }
 
-  fs.readFile(file, {encoding: "utf8"}, (err, contents) => {
+  fs.readFile(file, {encoding: "utf8"}, function(err, contents) {
     if (err != null) {
       callback(err);
       return;
@@ -217,7 +217,7 @@ DefaultBuilder.prototype.process_target = function(target, callback) {
   var post_processing = this.config[target]["post-process"][this.key];
   var target_file = path.join(this.destination_directory, target);
 
-  this.process_files(files, this.source_directory, (err, processed) => {
+  this.process_files(files, this.source_directory, function(err, processed) {
     if (err != null) {
       callback(err);
       return;
