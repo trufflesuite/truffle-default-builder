@@ -5,7 +5,7 @@ module.exports = function(contents, file, options, process, callback) {
   var includes = [
     path.join(__dirname, "../../node_modules/bluebird/js/browser/bluebird.js"),
     path.join(__dirname, "../../node_modules/web3/dist/web3.min.js"),
-    path.join(__dirname, "../../node_modules/ether-pudding/build/ether-pudding.js")
+    path.join(__dirname, "../../node_modules/ether-pudding/environments/development/build/ether-pudding.js")
   ];
 
   process(includes, function(err, processed) {
