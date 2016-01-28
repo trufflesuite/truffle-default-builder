@@ -1,6 +1,6 @@
 {
   "name": "truffle-default-builder",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Default builder for Truffle dapps",
   "main": "index.js",
   "dependencies": {
@@ -15,7 +15,7 @@
     "coffee-script": "^1.10.0",
     "colors": "^1.1.2",
     "cpr": "^1.0.0",
-    "ether-pudding": "^1.1.1",
+    "ether-pudding": "^2.0.0",
     "lodash": "^4.0.0",
     "mkdirp": "^0.5.1",
     "node-sass": "^3.4.2",
