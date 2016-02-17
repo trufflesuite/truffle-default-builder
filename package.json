@@ -1,6 +1,6 @@
 {
   "name": "truffle-default-builder",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Default builder for Truffle dapps",
   "main": "index.js",
   "dependencies": {
