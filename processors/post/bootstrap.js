@@ -2,11 +2,16 @@ var fs = require("fs");
 
 module.exports = function(contents, file, options, process, callback) {
 
-  var contract_names = options.contracts.map(function(contract) {return contract.name;}).join(", ");
-  var contract_source = options.contracts.map(function(contract) {return contract.code;}).join("");
+  var contract_names = options.contracts.map(function(contract) {return contract.contract_name;});
 
-  contents = contract_source + "\n\n" + contents + "\n\n" + " \
+  // Note: __contracts__ is provided by frontend_dependencies.js
+
+  contents = "\
 // Added by Truffle bootstrap.                                \n\n\
+Object.keys(__contracts__).forEach(function(contract_name) {  \n\n\
+  window[contract_name] = __contracts__[contract_name];       \n\n\
+});                                                           \n\n\
+                                                              \n\n\
 // Supports Mist, and other wallets that provide 'web3'.      \n\n\
 if (typeof web3 !== 'undefined') {                            \n\n\
   // Use the Mist/wallet provider.                            \n\n\
@@ -16,8 +21,9 @@ if (typeof web3 !== 'undefined') {                            \n\n\
   window.web3 = new Web3(new Web3.providers.HttpProvider('http://" + options.rpc.host + ":" + options.rpc.port + "')); \n\n\
 }                                                             \n\n\
                                                               \n\n\
-Pudding.setWeb3(window.web3);                                 \n\n\
-Pudding.load([" + contract_names + "], window);               \n\n";
+[" + contract_names + "].forEach(function(contract) {         \n\n\
+  contract.setProvider(window.web3.currentProvider);          \n\n\
+});                                                           \n\n" + contents;
 
   callback(null, contents);
 };

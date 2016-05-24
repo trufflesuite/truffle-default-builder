@@ -38,6 +38,7 @@ function DefaultBuilder(config, build_or_dist, extra_processors) {
         "post-process": {
           "app.js": [
             "bootstrap",
+            "include-contracts",
             "frontend-dependencies"
           ]
         }
@@ -48,6 +49,7 @@ function DefaultBuilder(config, build_or_dist, extra_processors) {
         "post-process": {
           "app.js": [
             "bootstrap",
+            "include-contracts",
             "frontend-dependencies",
             "uglify"
           ]
@@ -61,6 +63,8 @@ function DefaultBuilder(config, build_or_dist, extra_processors) {
 };
 
 DefaultBuilder.prototype.setup = function(extra_processors) {
+  extra_processors = extra_processors || {};
+
   // Evaluate build targets, making the configuration conform, adding
   // default post processing, if any.
   var targets = Object.keys(this.config);
