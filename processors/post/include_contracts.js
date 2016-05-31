@@ -41,7 +41,8 @@ var digestSource = function(options, callback) {
           baseDir: options.working_directory,
           standalone: "__contracts__",
           paths: [
-            path.resolve(path.join(__dirname, "../", "../", "node_modules"))
+            path.resolve(path.join(__dirname, "../", "../", "node_modules")),
+            path.resolve(path.join(__dirname, "../", "../", "../"))
           ]
         });
         b.add(info.path);
