@@ -11,11 +11,17 @@ var digest = function(source_directory, callback) {
 
   Pudding.contractFiles(source_directory, function(err, files) {
     if (err) return callback(err);
+
     async.eachSeries(files, function(file, finished) {
       Pudding.requireFile(file, function(err, contract) {
         if (err) return finished(err);
 
+        if (process.platform === "win32") {
+          file = file.split("\\").join("\\\\")
+        }
+
         digest += "  \"" + contract.contract_name + "\": require(\"" + file + "\"),\n";
+
         finished();
       });
     }, function(err) {
