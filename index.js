@@ -8,7 +8,7 @@ var copy = require("./lib/copy");
 
 function DefaultBuilder(config, build_or_dist, extra_processors) {
   this.config = config;
-  this.key = build_or_dist;
+  this.key = build_or_dist || "build";
   this.processors = {
     // These processors do nothing, but are registered to reduce warnings.
     ".html": "./processors/null.js",
@@ -278,7 +278,7 @@ DefaultBuilder.prototype.expect = function(expected_path, description, extra, ca
 
   if (!fs.existsSync(expected_path)) {
     var display_path = expected_path.replace(this.working_directory, "./");
-    var error = "Couldn't find " + description + " at " + display_path + ". " + extra;
+    var error = new Error("Couldn't find " + description + " at " + display_path + ". " + extra);
 
     if (callback != null) {
       callback(error);
