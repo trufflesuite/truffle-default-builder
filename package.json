@@ -4,7 +4,7 @@
   "description": "Default builder for Truffle dapps",
   "main": "index.js",
   "dependencies": {
-    "async": "^1.5.2",
+    "async": "^2.1.4",
     "babel-core": "^6.4.0",
     "babel-plugin-syntax-jsx": "^6.3.13",
     "babel-plugin-transform-react-jsx": "^6.4.0",
@@ -12,17 +12,17 @@
     "babel-preset-react": "^6.3.13",
     "babel-preset-stage-2": "^6.3.13",
     "bluebird": "^3.1.1",
-    "browserify": "^13.0.1",
+    "browserify": "^14.0.0",
     "coffee-script": "^1.10.0",
     "colors": "^1.1.2",
-    "cpr": "^1.0.0",
+    "cpr": "^2.0.2",
     "lodash": "^4.0.0",
     "mkdirp": "^0.5.1",
-    "node-sass": "^3.4.2",
+    "node-sass": "^4.5.0",
     "temp": "^0.8.3",
     "truffle-contract": "^1.1.6",
     "uglify-js": "^2.6.1",
-    "web3": "^0.16.0"
+    "web3": "^0.18.2"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
