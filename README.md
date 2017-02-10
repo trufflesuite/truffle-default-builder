@@ -1,5 +1,7 @@
 # truffle-default-builder
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/trufflesuite/truffle-default-builder.svg)](https://greenkeeper.io/)
+
 This is the build system that came standard with Truffle 1.0 and 2.0. For Truffle 3.0, it has been separated out as its own module and is no longer shipped as the default.
 
 # Features
